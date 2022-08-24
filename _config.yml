@@ -37,7 +37,7 @@ plugins:
 
 header_pages:
   - projects.md
-  - tutorials.md
+  - topics.md
   - about.markdown
 
 # Exclude from processing.
