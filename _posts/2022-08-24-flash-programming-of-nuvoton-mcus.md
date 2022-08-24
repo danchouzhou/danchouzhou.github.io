@@ -25,3 +25,7 @@ ISP also programed the flash memory by operating the FMC registers. The differen
 
 ### In-Application Programming (IAP)
 IAP
+
+### References
+- [ZaleYu/OpenOCD-Nuvoton](https://github.com/ZaleYu/OpenOCD-Nuvoton)
+- [TRM_M0A21_M0A23_Series_EN_Rev1.02.pdf](https://www.nuvoton.com/export/resource-files/TRM_M0A21_M0A23_Series_EN_Rev1.02.pdf)
