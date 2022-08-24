@@ -15,7 +15,7 @@ FMC is a interface between system memory and flash memory, it allow us to access
 In most of the Nuvoton's chips, the Flash Memory Map is different from System Memory Map. The `Flash Memory Map` is used for the FMC to access on-chip NOR flash. And the `System Memory Map` is what CPU looking through.
 
 ### Flash memory organization
-Most of the Nuvoton's chips provid three different blocks of flash memory, inclueds APROM, LDROM and Data Flash. In generaly, `APROM` is used to store the program which provid the target application, `LDROM` is used to store the bootloader which will execute before the application. The `Data Flash` is shared with APROM which can be determin by user in config bits, and it can be programmed through FMC without unlocking the permission of APROM.
+Most of the Nuvoton's chips provid three different blocks of flash memory, inclueds APROM, LDROM and Data Flash. In generaly, `APROM` is used to store the program which provid the target application, `LDROM` is used to store the bootloader which will execute before the application. The `Data Flash` is shared with APROM which can be determin by user in config bits, and it can be programmed through FMC without unlocking the write permission of APROM.
 
 ### In-Circuit Programming (ICP)
 ICP utilize the memory access feature of ICE, produce the flash memory programing by `operating the FMC registers`. It needs a programming tool to transport the corresponding command and data between FMC. Nuvoton provid NuMicro ICP Programming Tool which can download from their website.
