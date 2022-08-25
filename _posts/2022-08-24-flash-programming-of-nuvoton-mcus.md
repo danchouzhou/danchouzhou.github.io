@@ -26,7 +26,7 @@ Most of the Nuvoton's chips has three different blocks of flash memory, inclueds
 FMC provide `ISP Commands` include read, erase, program and remap. Accessing the FMC registers with corresponding commands and data via `firmware` or `ICE` can produce the flash memory programing. If you are doing APROM update by the firmware, it usually has a separate firmware called `bootloader` which located in LDROM to interact between FMC and the others peripheral such like UART, USB, CAN.
 
 ### In-Circuit Programming (ICP)
-ICP utilize the memory access feature of ICE, produce the flash memory programing by `ISP Commands`. It needs a programming tool (software) to process the commands and data between host computer and FMC registers. Nuvoton provide NuMicro ICP Programming Tool which can be download from their website.
+ICP utilize the memory access feature of ICE, sending the `ISP Commands` direct to the FMC registers without firmware. It needs a programming tool (software) to handle the commands and data between host computer and FMC registers. Nuvoton provide NuMicro ICP Programming Tool which can be download from their website.
 
 ### In-Application Programming (IAP)
 IAP brings more flexibility to the developer. If the IAP function is enabled by the CBS[0], the whole flash memory will appear in System Memory Map. This means CPU can executing the code in APROM, LDROM even the SRAM without rebooting the chip.
