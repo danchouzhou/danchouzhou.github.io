@@ -15,7 +15,7 @@ ICE enabled processor core registers and memory access through the external debu
 FMC is a interface between system memory and on-chip flash memory, it allow us to access flash memory via FMC registers which is already located in System Memory Map.
 
 #### Flash memory organization
-Most of the Nuvoton's chips has three different sections of flash memory, inclueds APROM, LDROM, and Data Flash. In generaly, `APROM` is used to store the program which provide to the target application, `LDROM` is used to store the bootloader which will execute before the application. The `Data Flash` is shared with APROM, it determin by DFBA in config bits which can be program by user, and it can be programmed through `ISP Commands` without unlocking the write permission of APROM.
+Most of the Nuvoton's chips has three different sections of flash memory, inclueds APROM, LDROM, and Data Flash. In generaly, `APROM` is used to store the program which provide to the target application, `LDROM` is used to store the bootloader which will execute before the application. The `Data Flash` is shared with APROM, it determin by DFBA in config bits which can be program by user, and it can be program through `ISP Commands` without unlocking the write permission of APROM.
 
 #### Chip Booting Selection (CBS)
 The CBS in the config bits determin the booting mode for the chip, there are four booting mode includes LDROM with IAP, LDROM without IAP, APROM with IAP, and APROM without IAP. If the chip boot without IAP mode, APROM and LDROM will be independent in System Memory Map which means the CPU can only access to APROM or LDROM while executing the code in one of them.
