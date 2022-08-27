@@ -7,12 +7,14 @@ tags: [MCUs, Nuvoton, NuMicro, Cortex-M]
 ---
 ## Background
 The modern microcontrollers utilize the flash memory instead of EEPROM as the code memory, achieve code memory programming without a stand alone programmer. This artical will present the principle and the multiple way to programming with code memory by the Nuvoton's chips, also please note that, the proper noun has different definition in different brands.
-## Conception
+
+## Basic knowledge
 ### In-Circuit Emulation (ICE)
 ICE enabled processor core registers and memory access through the external debug probe such like Nu-Link, ST-LINK, J-Link or something else. It helps developer to track the execution status of the microcontroller without braking the functionality of the target circuit. The common interface of the ICE is Serial Wire Debug Port (SW-DP or SWD) and JTAG-DP which spec in the ARM Debug Interface Architecture Specification. Nuvoton's chips usually provide the SWD as the ICE interface.
 
 ### Flash Memory Controller (FMC)
 FMC is a interface between system memory and on-chip flash memory, it allow us to access flash memory via FMC registers which is already located in System Memory Map.
+![FMC block diagram](/image/20220824/m0a23_fmc.png)
 
 #### Flash memory organization
 Most of the Nuvoton's chips has three different sections of flash memory, inclueds APROM, LDROM, and Data Flash. In generaly, `APROM` is used to store the program which provide to the target application, `LDROM` is used to store the bootloader which will execute before the application. The `Data Flash` is shared with APROM, it determin by DFBA in config bits which can be program by user, and it can be program through `ISP Commands` without unlocking the write permission of APROM.
