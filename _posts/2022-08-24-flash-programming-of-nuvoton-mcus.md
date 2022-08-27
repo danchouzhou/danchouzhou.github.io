@@ -6,7 +6,7 @@ categories:
 tags: [MCUs, Nuvoton, NuMicro, Cortex-M]
 ---
 ## Background
-The modern microcontrollers utilize the flash memory instead of EEPROM as the code memory, achieve code memory programming without a stand alone programmer. This artical will present the principle and the multiple way to programming with code memory by the Nuvoton's chips, also please note that, the proper noun has different definition in different brands.
+The modern microcontrollers utilize the flash memory instead of EEPROM as the code memory, achieve code memory programming without a stand alone programmer. This artical will present the principle and the multiple way to programming with code memory by the Nuvoton's chips, also please note that, different brands may have different definitions of the technical terms used below.
 
 ## Basic knowledge
 ### In-Circuit Emulation (ICE)
@@ -20,16 +20,16 @@ FMC is a interface between system memory and on-chip flash memory, it allow us t
 Most of the Nuvoton's chips has three different sections of flash memory, inclueds APROM, LDROM, and Data Flash. In generaly, `APROM` is used to store the program which provide to the target application, `LDROM` is used to store the bootloader which will execute before the application. The `Data Flash` is shared with APROM, it determin by DFBA in config bits which can be program by user, and it can be program through `ISP Commands` without unlocking the write permission of APROM.
 
 #### Chip Booting Selection (CBS)
-The CBS in the config bits determin the booting mode for the chip, there are four booting mode includes LDROM with IAP, LDROM without IAP, APROM with IAP, and APROM without IAP. If the chip boot without IAP mode, APROM and LDROM will be independent in System Memory Map which means the CPU can only access to APROM or LDROM while executing the code in one of them.
+The CBS in the config bits determin the booting mode for the chip, there are four booting mode includes LDROM with IAP, LDROM without IAP, APROM with IAP, and APROM without IAP. If the chip boot without IAP mode, APROM and LDROM will only have one of them present in the System Memory Map, which means can only access them self while CPU executing the code in it.
+
+#### Memory map
+In most of the Nuvoton's chips, the Flash Memory Map is different from System Memory Map. The `Flash Memory Map` is used for the FMC to access flash memory. And the `System Memory Map` is what CPU looking through. The flash memory can be map into the System Memory Map, the map address is setup by Chip Booting Selection (CBS) in the config bits. For example, the Flash Memory Map of LDROM start at 0x00100000 it can be map to 0x00000000 in the System Memory Map by select `Boot from LDROM without IAP mode` in CBS.
 
 | Booting mode | CBS | APROM mapping address | LDROM mapping address | Data flash mapping address | Vector table |
 | LDROM with IAP | 00 | 0x00000000 | 0x00100000 | DFBA | Remap to LDROM |
 | LDROM without IAP | 01 | 0x00000000 | 0x00000000 | DFBA | Depends on executing location |
 | APROM with IAP | 00 | 0x00000000 | 0x00100000 | DFBA | Remap to APROM |
 | APROM without IAP | 01 | 0x00000000 | 0x00000000 | DFBA | Depends on executing location |
-
-#### Memory map
-In most of the Nuvoton's chips, the Flash Memory Map is different from System Memory Map. The `Flash Memory Map` is used for the FMC to access flash memory. And the `System Memory Map` is what CPU looking through. The flash memory can be map into the System Memory Map, the map address is setup by Chip Booting Selection (CBS) in the config bits. For example, the Flash Memory Map of LDROM start at 0x00100000 it can be map to 0x00000000 in the System Memory Map by select `Boot from LDROM without IAP mode` in CBS.
 
 #### In-System Programming (ISP)
 FMC provide `ISP Commands` include read, erase, program, and vector remap. Accessing the FMC registers with corresponding commands and data via `firmware` or `ICE` can produce the flash memory programing. If you are doing APROM update by the firmware, it usually has a separate firmware called `bootloader` which located in LDROM to interact between FMC and the others peripheral such like UART, USB, CAN.
