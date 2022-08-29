@@ -41,6 +41,9 @@ ICP utilize the memory access feature of ICE, sending the `ISP Commands` direct 
 IAP brings more flexibility to the developers. If the IAP function is enabled by the CBS[0], the whole flash memory will appear in System Memory Map. This means CPU can executing the code in APROM, LDROM even the SRAM without rebooting the chip. IAP mode also let the APROM, LDROM even the SRAM able to map into a 512-byte of Vector Map Space. The Vector Map Space used for the Cortex-M Vector table which contains the reset value of the main stack pointer, the start addresse, and interrupt vector table. IAP brings more flexibility to the developers to customize the code executing location and the interrupt service routine. 
 
 ## Performing firmware update
+### NuMicro ICP Programming Tool
+### NuMicro ISP Programming Tool
+### OpenOCD
 
 ## References
 - [ZaleYu/OpenOCD-Nuvoton](https://github.com/ZaleYu/OpenOCD-Nuvoton)
