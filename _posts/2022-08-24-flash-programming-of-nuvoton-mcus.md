@@ -10,7 +10,7 @@ The modern microcontrollers utilize the flash memory instead of EEPROM as the co
 
 ## Basic knowledge
 ### In-Circuit Emulation (ICE)
-ICE enabled processor core registers and memory access through the external debug probe such like Nu-Link, ST-LINK, J-Link or something else. It helps developer to track the execution status of the microcontroller without braking the functionality of the target circuit. The common interface of the ICE is Serial Wire Debug Port (SW-DP or SWD) and JTAG-DP which spec in the ARM Debug Interface Architecture Specification. Nuvoton's chips usually provide the SWD as the ICE interface.
+ICE enabled processor core registers and memory access through the external debug probe such like Nu-Link, ST-LINK, J-Link or something else. It helps developer to track the execution status of the microcontroller without braking the functionality of the target circuit. The common interface of the ICE is Serial Wire Debug Port (SW-DP or SWD) and JTAG-DP which spec in the [ARM Debug Interface Architecture Specification](https://developer.arm.com/documentation/ihi0031/latest/). Nuvoton's chips usually provide the SWD as the ICE interface.
 
 ### Flash Memory Controller (FMC)
 FMC is a interface between system memory and on-chip flash memory, it allow us to access flash memory via FMC registers which is already located in System Memory Map.
@@ -35,7 +35,7 @@ In most of the Nuvoton's chips, the Flash Memory Map is different from System Me
 FMC provide `ISP Commands` include read, erase, program, and vector remap. Accessing the FMC registers with corresponding commands and data via `firmware` or `ICE` can produce the flash memory programing. If you are doing APROM update by the firmware, it usually has a separate firmware called `bootloader` which located in LDROM to interact between FMC and the others peripheral such like UART, USB, CAN.
 
 #### In-Circuit Programming (ICP)
-ICP utilize the memory access feature of ICE, sending the `ISP Commands` direct to the FMC registers without firmware. It needs a programming tool (software) to handle the commands and data between host computer, debug probe and FMC registers. Nuvoton provide NuMicro ICP Programming Tool which can be download from their website. If you are using a brand-new chip, it's supposed to to use the ICP to program your code.
+ICP utilize the memory access feature of ICE, sending the `ISP Commands` direct to the FMC registers without firmware. It needs a programming tool (software) to handle the commands and data between host computer, debug probe and FMC registers. Nuvoton provide NuMicro ICP Programming Tool which can be download from their [website](https://www.nuvoton.com/tool-and-software/software-tool/programmer-tool/). If you are using a brand-new chip, it's supposed to to use the ICP to program your code.
 
 #### In-Application Programming (IAP)
 IAP brings more flexibility to the developers. If the IAP function is enabled by the CBS[0], the whole flash memory will appear in System Memory Map. This means CPU can executing the code in APROM, LDROM even the SRAM without rebooting the chip. IAP mode also let the APROM, LDROM even the SRAM able to map into a 512-byte of Vector Map Space. The Vector Map Space used for the Cortex-M Vector table which contains the reset value of the main stack pointer, the start addresse, and interrupt vector table. IAP brings more flexibility to the developers to customize the code executing location and the interrupt service routine. 
