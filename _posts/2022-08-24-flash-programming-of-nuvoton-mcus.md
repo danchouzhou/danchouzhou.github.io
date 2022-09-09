@@ -43,6 +43,10 @@ IAP brings more flexibility to the developers. If the IAP function is enabled by
 ## Performing firmware update
 ### NuMicro ICP Programming Tool
 ### NuMicro ISP Programming Tool
+#### ISP bootloader
+#### UART
+#### USB
+#### CAN
 ### OpenOCD
 
 ## References
