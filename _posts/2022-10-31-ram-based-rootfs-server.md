@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Build a RAM based filesystem server"
-date:   2022-08-24 22:34:57 +0800
+date:   2022-10-31 14:20:20 +0800
 categories: 
 tags: [Debian, Linux]
 ---
