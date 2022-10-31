@@ -27,7 +27,8 @@ sudo nano /etc/default/grub
 
 ### Install additional software
 ```
-sudo apt update && sudo apt install htop screen wget tcpdump dosfstools exfat-utils -y
+sudo apt update && sudo apt install htop screen wget tcpdump dosfstools exfat-utils mdadm lvm2 linux-cpupower ethtool -y
+sudo apt clean
 ```
 
 ### Customize initramfs script for RAM based rootfs
@@ -48,8 +49,10 @@ mkdir /mount
 mount -t ${FSTYPE} ${ROOT} /mount
 mount -t tmpfs -o size=95% none ${rootmnt}
 cd ${rootmnt}
-cp /mount/rootfs.tar.gz .
+echo "Copying start.sh ..."
 cp /mount/start.sh .
+echo "Copying rootfs.tar.gz ..."
+cp /mount/rootfs.tar.gz .
 umount /mount
 echo "Extracting from rootfs.tar.gz ..."
 tar zxvf rootfs.tar.gz
@@ -59,7 +62,7 @@ rm rootfs.tar.gz
 ### Customize fstab for RAM based rootfs
 ```
 sudo cp /etc/fstab /etc/fstab.origin
-echo 'none /   tmpfs size=95% 0 1' > /etc/fstab.ram
+sudo sh -c "echo 'none /   tmpfs size=95% 0 1' > /etc/fstab.ram"
 ```
 
 ### Startup script
@@ -145,7 +148,7 @@ sudo cp local.origin local
 
 ### Copy the kernel
 ```
-sudo cp /boot/vmlinuz-`uname -r` ~/bootfiles
+sudo cp /boot/vmlinuz-`uname -r` ~/bootfiles/vmlinuz-`uname -r`
 ```
 
 ## Build a boot disk
@@ -195,10 +198,9 @@ echo 'timeout 3' >> /etc/dhcp/dhclient.conf
 echo 'retry 5' >> /etc/dhcp/dhclient.conf
 for i in $(ip link show | grep enp | cut -f2 -d' ' | sed 's/://g'); do
 	ip link set ${i} up
+	sleep 10
+	dhclient
 done
-
-sleep 10
-dhclient
 ```
 
 ### Unmount and reboot
