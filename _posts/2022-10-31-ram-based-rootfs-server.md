@@ -7,8 +7,8 @@ tags: [Debian, Linux]
 ---
 ## Background
 ## Requirement
-
-At least 2G RAM to store rootfs, above 4G is recommend.
+- At least 1G disk to store boot files
+- At least 2G RAM to store rootfs, above 4G is recommend
 
 ## Enviroment
 ### Install Debian in VirtualBox with separate /boot partition
