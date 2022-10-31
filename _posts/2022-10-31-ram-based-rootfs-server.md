@@ -6,12 +6,16 @@ categories:
 tags: [Debian, Linux]
 ---
 ## Background
+## Requirement
+
+At least 2G RAM to store rootfs, above 4G is recommend.
+
 ## Enviroment
 ### Install Debian in VirtualBox with separate /boot partition
-So that allow us to umount the /boot and mount specific drive which we want to build as boot disk.
+So that allow us to umount the /boot and mount specific drive which we want to build as boot medium.
 
 ### Config grub and linux command line
-This allow us to access the GRUB and CLI via serial console
+This will allow us to access the GRUB and CLI via serial console
 ```
 sudo dpkg-reconfigure grub-pc
  - Linux command line: console=tty0 console=ttyS0,115200n8
@@ -20,9 +24,15 @@ sudo dpkg-reconfigure grub-pc
 ```
 ```
 sudo nano /etc/default/grub
- - GRUB_TERMINAL="console serial"
- - GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"
- - sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+Add following lines
+```
+GRUB_TERMINAL="console serial"
+GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"
+```
+Update GRUB
+```
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
 ### Install additional software
@@ -151,8 +161,8 @@ sudo cp local.origin local
 sudo cp /boot/vmlinuz-`uname -r` ~/bootfiles/vmlinuz-`uname -r`
 ```
 
-## Build a boot disk
-Insert your USB thumb drive to VirtualBox, mkfs if necessary
+## Create boot medium
+Insert your USB thumb drive to VirtualBox, mkfs if necessary.
 ```
 sudo fdisk /dev/sdb
 sudo mkfs.vfat /dev/sdb1
