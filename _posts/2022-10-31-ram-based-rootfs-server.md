@@ -7,9 +7,23 @@ tags: [Debian, Linux]
 ---
 ## Background
 ## Enviroment
-### Install Debian in VirtualBox
+### Install Debian in VirtualBox with separate /boot partition
+So that allow us to umount the /boot and mount specific drive which we want to build as boot disk.
 
 ### Config grub and linux command line
+This allow us to access the GRUB and CLI via serial console
+```
+sudo dpkg-reconfigure grub-pc
+ - Linux command line: console=tty0 console=ttyS0,115200n8
+ - Linux default command line: <empty>
+ - GRUB install devices: /dev/sda
+```
+```
+sudo nano /etc/default/grub
+ - GRUB_TERMINAL="console serial"
+ - GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"
+ - sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 ### Install additional software
 ```
@@ -28,6 +42,8 @@ Find local_mount_root(), comment the mount root command and add following line.
 # if ! mount ${roflag} ${FSTYPE:+-t "${FSTYPE}"} ${ROOTFLAGS} "${ROOT}" ">
 #         panic "Failed to mount ${ROOT} as root file system."
 # fi
+```
+```
 mkdir /mount
 mount -t ${FSTYPE} ${ROOT} /mount
 mount -t tmpfs -o size=95% none ${rootmnt}
