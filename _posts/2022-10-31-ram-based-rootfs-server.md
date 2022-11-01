@@ -12,7 +12,7 @@ tags: [Debian, Linux]
 
 ## Enviroment
 ### Install Debian in VirtualBox with separate /boot partition
-So that allow us to umount the /boot and mount specific drive which we want to build as boot medium.
+So that allow us to umount the /boot and mount specific disk which we want to build as boot medium.
 
 ### Config grub and linux command line
 This will allow us to access the GRUB and CLI via serial console
@@ -42,6 +42,7 @@ sudo apt clean
 ```
 
 ### Customize initramfs script for RAM based rootfs
+Make a backup, add another file. 
 ```
 cd /usr/share/initramfs-tools/scripts/
 sudo cp local local.origin
@@ -70,6 +71,7 @@ rm rootfs.tar.gz
 ```
 
 ### Customize fstab for RAM based rootfs
+Make a backup, add another file. Set the tmpfs as / .
 ```
 sudo cp /etc/fstab /etc/fstab.origin
 sudo sh -c "echo 'none /   tmpfs size=95% 0 1' > /etc/fstab.ram"
