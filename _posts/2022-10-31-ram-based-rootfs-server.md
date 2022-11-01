@@ -49,7 +49,7 @@ sudo cp local local.origin
 sudo cp local local.ram
 sudo nano local.ram
 ```
-Find local_mount_root(), comment the mount root command and add following line.
+Find local_mount_root(), comment out the normal root mount command and add following lines.
 ```
 # if ! mount ${roflag} ${FSTYPE:+-t "${FSTYPE}"} ${ROOTFLAGS} "${ROOT}" ">
 #         panic "Failed to mount ${ROOT} as root file system."
@@ -215,8 +215,15 @@ for i in $(ip link show | grep enp | cut -f2 -d' ' | sed 's/://g'); do
 done
 ```
 
-### Unmount and reboot
+### Unmount and poweroff the virtual machine
 ```
 sudo umount /boot
-sudo reboot
+sudo poweroff
 ```
+Your disk is ready to boot!!
+
+## Reference
+- [Linux - Load your root partition to RAM and boot it - Tutorials - reboot.pro](http://reboot.pro/topic/14547-linux-load-your-root-partition-to-ram-and-boot-it/)
+- [RAMboot How-To for Debian 8 Jessie - LinuxQuestions.org](https://www.linuxquestions.org/questions/blog/isaackuo-112178/ramboot-how-to-for-debian-8-jessie-37165/)
+- [Chapter 3. The system initialization - Debian Reference](https://www.debian.org/doc/manuals/debian-reference/ch03.html)
+- [systemd - Debian Wiki](https://wiki.debian.org/systemd)
