@@ -164,6 +164,24 @@ sudo cp local.origin local
 sudo cp /boot/vmlinuz-`uname -r` ~/bootfiles/vmlinuz-`uname -r`
 ```
 
+### Make a start up script
+```
+nano ~/bootfiles/start.sh
+```
+```
+#!/bin/bash
+
+## Network ##
+dhclient -r
+echo 'timeout 3' >> /etc/dhcp/dhclient.conf
+echo 'retry 5' >> /etc/dhcp/dhclient.conf
+for i in $(ip link show | grep enp | cut -f2 -d' ' | sed 's/://g'); do
+	ip link set ${i} up
+	sleep 10
+	dhclient
+done
+```
+
 ## Create boot medium
 Insert your USB thumb drive to VirtualBox, mkfs if necessary.
 ```
@@ -183,8 +201,12 @@ sudo cp ~/bootfiles/* /boot
 ```
 
 ### Install GRUB
+This will install the grub bootloader and mark the disk bootable.
 ```
 sudo grub-install /dev/sdb
+```
+update-grub will generate the boot menu (grub.cfg) by detecting the  content in /boot
+```
 sudo update-grub
 ```
 
@@ -196,24 +218,6 @@ sudo blkid
 ### Modify the root UUID in grub.cfg
 ```
 sudo nano /boot/grub/grub.cfg
-```
-
-### Make a start up script
-```
-sudo nano /boot/start.sh
-```
-```
-#!/bin/bash
-
-## Network ##
-dhclient -r
-echo 'timeout 3' >> /etc/dhcp/dhclient.conf
-echo 'retry 5' >> /etc/dhcp/dhclient.conf
-for i in $(ip link show | grep enp | cut -f2 -d' ' | sed 's/://g'); do
-	ip link set ${i} up
-	sleep 10
-	dhclient
-done
 ```
 
 ### Unmount and poweroff the virtual machine
@@ -228,3 +232,4 @@ Your disk is ready to boot!!
 - [RAMboot How-To for Debian 8 Jessie - LinuxQuestions.org](https://www.linuxquestions.org/questions/blog/isaackuo-112178/ramboot-how-to-for-debian-8-jessie-37165/)
 - [Chapter 3. The system initialization - Debian Reference](https://www.debian.org/doc/manuals/debian-reference/ch03.html)
 - [systemd - Debian Wiki](https://wiki.debian.org/systemd)
+- [GRUB2中文指南第二版(上）](https://wiki.ubuntu-tw.org/index.php?title=GRUB2%E4%B8%AD%E6%96%87%E6%8C%87%E5%8D%97%E7%AC%AC%E4%BA%8C%E7%89%88%28%E4%B8%8A%EF%BC%89)
