@@ -133,8 +133,8 @@ cp /tmp/rootfs.tar.gz ~/bootfiles/.
 ```
 sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.origin
 sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.ram
-sudo sh -c "ls /lib/modules/5.10.0-19-amd64/kernel/fs/fat/ | cut -f1 -d '.' >> /etc/initramfs-tools/modules.ram"
-sudo sh -c "ls /lib/modules/5.10.0-19-amd64/kernel/fs/nls/ | cut -f1 -d '.' >> /etc/initramfs-tools/modules.ram"
+sudo sh -c "ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' >> /etc/initramfs-tools/modules.ram"
+sudo sh -c "ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' >> /etc/initramfs-tools/modules.ram"
 sudo cp /etc/initramfs-tools/modules.ram /etc/initramfs-tools/modules
 ```
 
