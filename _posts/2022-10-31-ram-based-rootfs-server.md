@@ -29,6 +29,7 @@ Add following lines
 ```
 GRUB_TERMINAL="console serial"
 GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"
+GRUB_DISABLE_OS_PROBER=true
 ```
 Update GRUB
 ```
@@ -74,7 +75,7 @@ rm rootfs.tar.gz
 Make a backup, add another file. Set the tmpfs as / .
 ```
 sudo cp /etc/fstab /etc/fstab.origin
-sudo sh -c "echo 'none /   tmpfs size=95% 0 1' > /etc/fstab.ram"
+echo 'none /   tmpfs size=95% 0 1' | sudo tee -a /etc/fstab.ram
 ```
 
 ### Startup script
@@ -111,6 +112,11 @@ sudo cp local.ram local
 sudo cp /etc/fstab.ram /etc/fstab
 ```
 
+### Always print the sudo lecture
+```
+echo 'Defaults lecture = always' | sudo tee -a /etc/sudoers.d/privacy
+```
+
 ### Archive the rootfs
 ```
 sudo tar zcvf /tmp/rootfs.tar.gz --one-file-system /
@@ -133,8 +139,8 @@ cp /tmp/rootfs.tar.gz ~/bootfiles/.
 ```
 sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.origin
 sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.ram
-sudo sh -c "ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' >> /etc/initramfs-tools/modules.ram"
-sudo sh -c "ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' >> /etc/initramfs-tools/modules.ram"
+ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
+ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
 sudo cp /etc/initramfs-tools/modules.ram /etc/initramfs-tools/modules
 ```
 
@@ -173,8 +179,8 @@ nano ~/bootfiles/start.sh
 
 ## Network ##
 dhclient -r
-echo 'timeout 3' >> /etc/dhcp/dhclient.conf
-echo 'retry 5' >> /etc/dhcp/dhclient.conf
+echo 'timeout 3' | tee -a /etc/dhcp/dhclient.conf
+echo 'retry 5' | tee -a /etc/dhcp/dhclient.conf
 for i in $(ip link show | grep enp | cut -f2 -d' ' | sed 's/://g'); do
 	ip link set ${i} up
 	sleep 10
