@@ -11,13 +11,14 @@ tags: [Debian, Linux]
 - Ultra fast after boot
 - No need to consider about power failure
 - Great for experiment, you'll get a fresh OS after reboot
-- File based maintenance
+- File based maintenance, easy to copy and paste with cross platform
 
 ### Concern
-- Need lots of RAM
+- Need lots of RAM to boot (<100MB v.s. 1.5GB)
 - There is no error correction if you're using a consumer RAM
 
 ## Requirement
+- A physical or virtual machine
 - At least 1G disk to store boot files
 - At least 2G RAM to store rootfs, above 4G is recommend
 
