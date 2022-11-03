@@ -91,7 +91,7 @@ echo 'none /   tmpfs size=95% 0 1' | sudo tee -a /etc/fstab.ram
 ```
 
 ### Startup script
-Our customize initramfs will copy start.sh from boot medium to / , systemd will handel it after whole system boot up. This allow user to add additional stuff by editing just start.sh after archive the rootfs.tar.gz
+Our customize initramfs will copy start.sh from boot medium to / , systemd will handle it after whole system boot up. This allow user to add additional stuff by editing just start.sh after archive the rootfs.tar.gz
 ```
 sudo nano /etc/systemd/system/startup.service
 ```
