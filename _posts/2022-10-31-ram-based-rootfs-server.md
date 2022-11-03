@@ -6,6 +6,17 @@ categories:
 tags: [Debian, Linux]
 ---
 ## Background
+
+### Advantage
+- Ultra fast after boot
+- No need to consider about power failure
+- Great for experiment, you'll get a fresh OS after reboot
+- File based maintenance
+
+### Concern
+- Need lots of RAM
+- There is no error correction if you're using a consumer RAM
+
 ## Requirement
 - At least 1G disk to store boot files
 - At least 2G RAM to store rootfs, above 4G is recommend
