@@ -190,14 +190,19 @@ nano ~/bootfiles/start.sh
 #!/bin/bash
 
 ## Network ##
-dhclient -r
-echo 'timeout 3' | tee -a /etc/dhcp/dhclient.conf
-echo 'retry 5' | tee -a /etc/dhcp/dhclient.conf
+sed -in '/enp/d' /etc/network/interfaces
+
 for i in $(ip link show | grep enp | cut -f2 -d' ' | sed 's/://g'); do
-	ip link set ${i} up
-	sleep 10
-	dhclient
+	echo "" >> /etc/network/interfaces
+	echo "auto ${i}" >> /etc/network/interfaces
+	echo "allow-hotplug ${i}" >> /etc/network/interfaces
+	echo "iface ${i} inet dhcp" >> /etc/network/interfaces
+	if ! ethtool ${i} | grep -sq 'Supports Wake-on: d'; then
+		echo "up ethtool -s ${i} wol g" >> /etc/network/interfaces
+	fi
 done
+
+systemctl restart networking.service
 ```
 
 ## Create boot medium
