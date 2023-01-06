@@ -89,7 +89,7 @@ ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' | sudo tee -a /etc/in
 Make a backup, add another file. Set the tmpfs as / .
 ```
 sudo cp /etc/fstab /etc/fstab.origin
-echo 'none /   tmpfs size=95% 0 1' | sudo tee -a /etc/fstab.ram
+echo 'none /   tmpfs size=95% 0 0' | sudo tee -a /etc/fstab.ram
 ```
 
 ### Startup script
