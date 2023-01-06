@@ -32,7 +32,7 @@ This will allow us to access the GRUB and CLI via serial console
 sudo dpkg-reconfigure grub-pc
  - Linux command line: console=tty0 console=ttyS0,115200n8
  - Linux default command line: <empty>
- - GRUB install devices: /dev/sda
+ - GRUB install devices: <no change>
 ```
 ```
 sudo nano /etc/default/grub
@@ -73,14 +73,16 @@ mkdir /mount
 mount -t ${FSTYPE} ${ROOT} /mount
 mount -t tmpfs -o size=95% none ${rootmnt}
 cd ${rootmnt}
-echo "Copying start.sh ..."
-cp /mount/start.sh .
-echo "Copying rootfs.tar.gz ..."
-cp /mount/rootfs.tar.gz .
-umount /mount
-echo "Extracting from rootfs.tar.gz ..."
-tar zxvf rootfs.tar.gz
-rm rootfs.tar.gz
+/mount/init.sh
+```
+
+### List the FAT and exFAT kernel module
+```
+sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.origin
+sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.ram
+ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
+ls /lib/modules/`uname -r`/kernel/fs/exfat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
+ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
 ```
 
 ### Customize fstab for RAM based rootfs
@@ -117,10 +119,11 @@ sudo systemctl enable startup.service
 sudo mount -t tmpfs -o size=2G tmpfs /tmp
 ```
 
-### Copy the initramfs script and fstab to default filename
+### Use all customize files
+Copy the customize files to default filename
 ```
-# cd /usr/share/initramfs-tools/scripts/
-sudo cp local.ram local
+sudo cp /usr/share/initramfs-tools/scripts/local.ram /usr/share/initramfs-tools/scripts/local
+sudo cp /etc/initramfs-tools/modules.ram /etc/initramfs-tools/modules
 sudo cp /etc/fstab.ram /etc/fstab
 ```
 
@@ -134,33 +137,13 @@ echo 'Defaults lecture = always' | sudo tee -a /etc/sudoers.d/privacy
 sudo tar zcvf /tmp/rootfs.tar.gz --one-file-system /
 ```
 
-### Switch back to normal
-```
-sudo cp local.origin local
-sudo cp /etc/fstab.origin /etc/fstab
-```
-
 ### Copy the archive to home directory
 ```
 mkdir ~/bootfiles/
 cp /tmp/rootfs.tar.gz ~/bootfiles/.
 ```
 
-## Build the boot files
-### List the fat kernel module
-```
-sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.origin
-sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.ram
-ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
-ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
-sudo cp /etc/initramfs-tools/modules.ram /etc/initramfs-tools/modules
-```
-
-### Copy the customize script
-```
-sudo cp local.ram local
-```
-
+## Prepare the boot files
 ### Build the customize initramfs
 ```
 sudo mkinitramfs -o ~/bootfiles/initrd.img-`uname -r`
@@ -171,18 +154,29 @@ sudo mkinitramfs -o ~/bootfiles/initrd.img-`uname -r`
 lsinitramfs ~/bootfiles/initrd.img-`uname -r` | grep fat
 ```
 
-### Switch back to original files
-```
-sudo cp /etc/initramfs-tools/modules.origin /etc/initramfs-tools/modules
-sudo cp local.origin local
-```
-
 ### Copy the kernel
 ```
 sudo cp /boot/vmlinuz-`uname -r` ~/bootfiles/vmlinuz-`uname -r`
 ```
 
-### Make a start up script
+### Make a start up script for initramfs
+```
+nano ~/bootfiles/init.sh
+```
+```
+#!/bin/sh
+
+echo "Copying start.sh ..."
+cp /mount/start.sh .
+echo "Copying rootfs.tar.gz ..."
+cp /mount/rootfs.tar.gz .
+umount /mount
+echo "Extracting from rootfs.tar.gz ..."
+tar zxvf rootfs.tar.gz
+rm rootfs.tar.gz
+```
+
+### Make a start up script for systemd startup.service
 ```
 nano ~/bootfiles/start.sh
 ```
@@ -205,11 +199,19 @@ done
 systemctl restart networking.service
 ```
 
+## Switch back to original files
+Now the boot files are ready, so we are going to recover modified files.
+```
+sudo cp /usr/share/initramfs-tools/scripts/local.origin /usr/share/initramfs-tools/scripts/local
+sudo cp /etc/initramfs-tools/modules.origin /etc/initramfs-tools/modules
+sudo cp /etc/fstab.origin /etc/fstab
+```
+
 ## Create boot medium
 Insert your USB thumb drive to VirtualBox, mkfs if necessary.
 ```
 sudo fdisk /dev/sdb
-sudo mkfs.vfat /dev/sdb1
+sudo mkfs.exfat /dev/sdb1
 ```
 
 ### Mount the disk to /boot
