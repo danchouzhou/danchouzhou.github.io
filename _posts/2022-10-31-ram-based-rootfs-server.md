@@ -210,6 +210,9 @@ sudo rm /etc/systemd/system/startup.service
 sudo systemctl daemon-reload
 ```
 
+## Complicated? Use the shell script version!
+- [https://github.com/danchouzhou/ramfs](https://github.com/danchouzhou/ramfs)
+
 ## Create boot medium
 Insert your USB thumb drive to VirtualBox, mkfs if necessary.
 ```
