@@ -205,6 +205,9 @@ Now the boot files are ready, so we are going to recover modified files.
 sudo cp /usr/share/initramfs-tools/scripts/local.original /usr/share/initramfs-tools/scripts/local
 sudo cp /etc/initramfs-tools/modules.original /etc/initramfs-tools/modules
 sudo cp /etc/fstab.original /etc/fstab
+sudo systemctl disable startup.service
+sudo rm /etc/systemd/system/startup.service
+sudo systemctl daemon-reload
 ```
 
 ## Create boot medium
