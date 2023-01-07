@@ -58,9 +58,9 @@ sudo apt clean
 Make a backup, add another file. 
 ```
 cd /usr/share/initramfs-tools/scripts/
-sudo cp local local.origin
-sudo cp local local.ram
-sudo nano local.ram
+sudo cp local local.original
+sudo cp local local.ramfs
+sudo nano local.ramfs
 ```
 Find local_mount_root(), comment out the normal root mount command and add following lines.
 ```
@@ -78,18 +78,18 @@ cd ${rootmnt}
 
 ### List the FAT and exFAT kernel module
 ```
-sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.origin
-sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.ram
-ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
-ls /lib/modules/`uname -r`/kernel/fs/exfat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
-ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ram
+sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.original
+sudo cp /etc/initramfs-tools/modules /etc/initramfs-tools/modules.ramfs
+ls /lib/modules/`uname -r`/kernel/fs/fat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ramfs
+ls /lib/modules/`uname -r`/kernel/fs/exfat/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ramfs
+ls /lib/modules/`uname -r`/kernel/fs/nls/ | cut -f1 -d '.' | sudo tee -a /etc/initramfs-tools/modules.ramfs
 ```
 
 ### Customize fstab for RAM based rootfs
 Make a backup, add another file. Set the tmpfs as / .
 ```
-sudo cp /etc/fstab /etc/fstab.origin
-echo 'none /   tmpfs size=95% 0 0' | sudo tee -a /etc/fstab.ram
+sudo cp /etc/fstab /etc/fstab.original
+echo 'none /   tmpfs size=95% 0 0' | sudo tee -a /etc/fstab.ramfs
 ```
 
 ### Startup script
@@ -122,9 +122,9 @@ sudo mount -t tmpfs -o size=2G tmpfs /tmp
 ### Use all customize files
 Copy the customize files to default filename
 ```
-sudo cp /usr/share/initramfs-tools/scripts/local.ram /usr/share/initramfs-tools/scripts/local
-sudo cp /etc/initramfs-tools/modules.ram /etc/initramfs-tools/modules
-sudo cp /etc/fstab.ram /etc/fstab
+sudo cp /usr/share/initramfs-tools/scripts/local.ramfs /usr/share/initramfs-tools/scripts/local
+sudo cp /etc/initramfs-tools/modules.ramfs /etc/initramfs-tools/modules
+sudo cp /etc/fstab.ramfs /etc/fstab
 ```
 
 ### Always print the sudo lecture
@@ -139,29 +139,29 @@ sudo tar zcvf /tmp/rootfs.tar.gz --one-file-system /
 
 ### Copy the archive to home directory
 ```
-mkdir ~/bootfiles/
-cp /tmp/rootfs.tar.gz ~/bootfiles/.
+mkdir -p /bootfiles/
+cp /tmp/rootfs.tar.gz /bootfiles/.
 ```
 
 ## Prepare the boot files
 ### Build the customize initramfs
 ```
-sudo mkinitramfs -o ~/bootfiles/initrd.img-`uname -r`
+sudo mkinitramfs -o /bootfiles/initrd.img-`uname -r`
 ```
 
 ### Check if fat kernel module inclued
 ```
-lsinitramfs ~/bootfiles/initrd.img-`uname -r` | grep fat
+lsinitramfs /bootfiles/initrd.img-`uname -r` | grep fat
 ```
 
 ### Copy the kernel
 ```
-sudo cp /boot/vmlinuz-`uname -r` ~/bootfiles/vmlinuz-`uname -r`
+sudo cp /boot/vmlinuz-`uname -r` /bootfiles/vmlinuz-`uname -r`
 ```
 
 ### Make a start up script for initramfs
 ```
-nano ~/bootfiles/init.sh
+nano /bootfiles/init.sh
 ```
 ```
 #!/bin/sh
@@ -178,7 +178,7 @@ rm rootfs.tar.gz
 
 ### Make a start up script for systemd startup.service
 ```
-nano ~/bootfiles/start.sh
+nano /bootfiles/start.sh
 ```
 ```
 #!/bin/bash
@@ -202,9 +202,9 @@ systemctl restart networking.service
 ## Switch back to original files
 Now the boot files are ready, so we are going to recover modified files.
 ```
-sudo cp /usr/share/initramfs-tools/scripts/local.origin /usr/share/initramfs-tools/scripts/local
-sudo cp /etc/initramfs-tools/modules.origin /etc/initramfs-tools/modules
-sudo cp /etc/fstab.origin /etc/fstab
+sudo cp /usr/share/initramfs-tools/scripts/local.original /usr/share/initramfs-tools/scripts/local
+sudo cp /etc/initramfs-tools/modules.original /etc/initramfs-tools/modules
+sudo cp /etc/fstab.original /etc/fstab
 ```
 
 ## Create boot medium
@@ -222,7 +222,7 @@ sudo mount /dev/sdb1 /boot
 
 ### Copy boot files
 ```
-sudo cp ~/bootfiles/* /boot
+sudo cp /bootfiles/* /boot
 ```
 
 ### Install GRUB
