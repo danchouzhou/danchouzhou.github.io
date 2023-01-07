@@ -241,7 +241,7 @@ update-grub will generate the boot menu (grub.cfg) by detecting the  content in 
 sudo update-grub
 ```
 
-### Chenk the UUID of your thumb drive
+### Check the UUID of your thumb drive
 ```
 sudo blkid
 ```
