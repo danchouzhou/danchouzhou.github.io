@@ -17,10 +17,11 @@ permalink: /about/
 - [Texas Instruments TI-84 Plus CE graphing calculators \| Sep 8, 2019](https://education.ti.com/en/products/calculators/scientific-calculators/ti-36x-pro)
 - [HAKKO FX-600 dial temperature soldering iron](https://www.hakko.com/english/products/hakko_fx600.html)
 - [ENGINEER PAD-02 Handy Crimp Tool \| Jan 15, 2020](https://www.engineertools-jp.com/pad02)
-- [MAKITA TD090DWE Cordless Impact Driver \| May 5, 2020](https://www.makita.co.jp/product/li_ion/td090d/td090d.html)
+- [~~MAKITA TD090DWE Cordless Impact Driver \| May 5, 2020 to Mar 18, 2023~~](https://www.makita.co.jp/product/li_ion/td090d/td090d.html)
 - [~~GWINSTEK GDM-8261A Benchtop DMM \| May 15, 2020 to June 16, 2022~~](https://www.gwinstek.com/en-global/products/detail/GDM-8261A)
 - [Keysight DSOX1204G 70MHz InfiniiVision Oscilloscope \| Oct 8, 2020](https://www.keysight.com/us/en/support/DSOX1204G/oscilloscope-70-100-200-mhz-4-analog-channels-waveform-generator.html)
-- [Keysight 34465A 6.5 digit Truevolt DMM　\| Jan 13, 2023](https://www.keysight.com/us/en/product/34465A/digital-multimeter-6-5-digit-truevolt-dmm.html)
+- [Keysight 34465A 6.5 digit Truevolt DMM \| Jan 13, 2023](https://www.keysight.com/us/en/product/34465A/digital-multimeter-6-5-digit-truevolt-dmm.html)
+- [Makita DTD156RF Cordless Impact Driver \| Mar 8, 2023](https://makita.com.tw/product/dtd156/)
 
 
 <!---
