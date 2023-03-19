@@ -6,6 +6,7 @@ permalink: /about/
 
 ### My equipment
 - [GWINSTEK GPD-4303S Programable Power Supply \| Apr 27, 2015](https://www.gwinstek.com/en-US/products/detail/GPD-Series)
+- [Fuji Xerox DocuPrint P115 w Black and White Laser Printer](https://support-fb.fujifilm.com/setupDriverForm.do?pid=DPP115w&ctry_code=KR&lang_code=zh_TW&d_lang=zh_TW)
 - [GWINSTEK AFG-2225 Arbitrary Signal Generator \| Sep 17, 2016](https://www.gwinstek.com/en-US/products/detail/AFG-2225)
 - [HAKKO FX-888D ESD safe Soldering Station \| Sep 26, 2016](https://www.hakko.com/english/products/hakko_fx888d.html)
 - [DER EE DE-965TRn Analogue Multimeter \| Nov 17, 2016](https://www.deree.com.tw/de-965trn-analog-multimeter.html)
